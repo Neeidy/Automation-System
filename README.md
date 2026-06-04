@@ -1,4 +1,4 @@
-<h1 align="center">⚙️ automation-systems</h1>
+<h1 align="center">⚙️ Automation-Systems</h1>
 
 <p align="center">
   <em>three backend automations — evidence over hype</em>
