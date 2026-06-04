@@ -49,14 +49,14 @@ This repository collects three no-/low-code backend automations built on **n8n**
 
 ---
 
-## Author
-
-**Built by Yigitcan Ük** — Vienna, Austria
-
-[LinkedIn](https://www.linkedin.com/in/yigitcanuk/) · [GitHub](https://github.com/Neeidy)
-
----
 
 ## License
 
 Released under the [MIT License](LICENSE).
+
+
+<div align="center">
+
+Built by [Yigitcan Uk](https://www.linkedin.com/in/yigitcanuk/) · [GitHub](https://github.com/Neeidy)
+
+</div>
