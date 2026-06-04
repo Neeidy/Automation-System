@@ -52,8 +52,9 @@ This repository collects three no-/low-code backend automations built on **n8n**
 
 ## License
 
-Released under the [MIT License](LICENSE).
+MIT — see [LICENSE](./LICENSE).
 
+---
 
 <div align="center">
 
