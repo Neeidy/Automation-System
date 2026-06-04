@@ -1,32 +1,86 @@
-# AI Lead Intake CRM (n8n)
+<h1 align="center">📥 AI Lead Intake CRM</h1>
 
-An inbound-lead intake pipeline built in n8n: it receives lead submissions over a webhook, cleans and validates them, removes duplicates, stores them in Airtable, logs every outcome, notifies via Telegram, and routes failures to a dedicated error-handler workflow.
+<p align="center">
+  <em>clean leads in, noise out</em>
+</p>
 
-## Problem solved
-Manual lead handling is slow and error-prone — duplicate entries, missing data, and no audit trail. This workflow normalizes incoming leads, rejects invalid/missing emails, prevents duplicates, and keeps a clean record plus an event log automatically.
+<p align="center">
+  <img src="https://img.shields.io/badge/n8n-self--hosted-EA4B71?logo=n8n&logoColor=white" alt="n8n self-hosted">
+  <img src="https://img.shields.io/badge/Airtable-CRM-18BFFF?logo=airtable&logoColor=white" alt="Airtable">
+  <img src="https://img.shields.io/badge/Telegram-alerts-26A5E4?logo=telegram&logoColor=white" alt="Telegram">
+  <img src="https://img.shields.io/badge/trigger-webhook%20(POST)-ffb454" alt="webhook POST trigger">
+  <img src="https://img.shields.io/badge/data-demo%20%2F%20sanitized-5cd887" alt="demo / sanitized">
+</p>
+
+> An inbound-lead pipeline in n8n: receive a lead over a webhook, normalize and validate it, drop duplicates, store it in Airtable, log every outcome, and alert via Telegram — plus a separate error-handler workflow.
+
+Manual lead handling is slow and error-prone — duplicate entries, missing data, no audit trail. This workflow turns a raw webhook submission into a clean Airtable record and an event log, and notifies on every new lead.
+
+---
 
 ## Architecture
-1. **Webhook (POST)** receives the lead payload.
-2. **Normalize** the submitted fields (visible in the export: name, email, phone, business type, city, message).
-3. **Validate email** — missing/invalid emails take a dedicated response path.
-4. **Deduplicate** against the `Leads_clean` table.
-5. **Store**: new leads are written to `Leads_clean`; every outcome is written to `Automation_Logs`.
-6. **Respond** on one of three paths: success / duplicate / missing-email.
-7. **Notify** a new lead via **Telegram**.
-8. A **separate error-handler workflow** captures failures and logs them to `Automation_Logs`.
 
-Airtable base: **AI Lead CRM** · tables: **Leads_clean**, **Automation_Logs**.
+```
+Webhook (POST)
+   │
+   ▼
+Set ─ normalize fields  (name · email · phone · business_type · city · message)
+   │
+   ▼
+IF ─ email present/valid? ──no──►  Respond: missing-email
+   │ yes
+   ▼
+Airtable ─ search Leads_clean  (dedupe)
+   │
+   ▼
+IF ─ already exists? ──yes──►  Respond: duplicate
+   │ no
+   ▼
+Airtable ─ create in Leads_clean ──►  Airtable ─ log Automation_Logs
+   │
+   ├──►  Telegram ─ notify new lead
+   └──►  Respond: success
 
-## Tools
-n8n (self-hosted) · Airtable · Telegram · HTTP webhook.
+[separate workflow]   Error Trigger ──►  Airtable ─ log Automation_Logs
+```
+
+Airtable base **AI Lead CRM** · tables **Leads_clean** and **Automation_Logs**.
+
+---
+
+## Built with
+
+`n8n` (self-hosted) · `Airtable` · `Telegram` · HTTP `webhook`
+
+---
 
 ## Files
-- `ai-lead-intake-crm.workflow.json` — main workflow (sanitized).
-- `ai-lead-intake-crm.error-handler.json` — error-handler workflow (sanitized).
-- `case-study.html` — case-study page with screenshots and walkthrough.
 
-## Limitations & honesty notes
-- **Sanitized export:** webhook path/ID, Airtable base/table IDs, Telegram chat ID, and n8n credential/instance IDs are replaced with placeholders (`<...>`). The JSON is **illustrative**, not drop-in importable — you must reconnect your own credentials and IDs.
-- **Unauthenticated webhook:** the intake endpoint has no authentication in this build.
-- **Local/self-hosted:** built on a self-hosted n8n instance, not n8n Cloud.
-- **Demo data:** all visible lead records are sample data, not real clients.
+| File | Purpose |
+|---|---|
+| `ai-lead-intake-crm.workflow.json` | Main workflow — intake → validate → dedupe → store → log → notify (sanitized) |
+| `ai-lead-intake-crm.error-handler.json` | Separate error-handler workflow — logs failures to `Automation_Logs` (sanitized) |
+| `case-study.html` | Case-study page with screenshots and walkthrough |
+
+---
+
+## Status & limitations
+
+- **Local / self-hosted** n8n build, not n8n Cloud.
+- **Unauthenticated webhook** — the intake endpoint has no auth in this build.
+- **Sanitized export** — webhook path/ID, Airtable base/table IDs, Telegram chat ID, and n8n credential/instance IDs are placeholders (`<...>`). The JSON is **illustrative**, not drop-in importable; reconnect your own credentials and IDs to run it.
+- **Demo data** — all visible lead records are sample data, not real clients.
+
+---
+
+## Author
+
+**Built by Yigitcan Ük** — Vienna, Austria
+
+[LinkedIn](https://www.linkedin.com/in/yigitcanuk/) · [GitHub](https://github.com/Neeidy)
+
+---
+
+## License
+
+Released under the [MIT License](../LICENSE).

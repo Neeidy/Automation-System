@@ -1,26 +1,79 @@
-# Client Onboarding & Follow-up (Zapier)
+<h1 align="center">🤝 Client Onboarding &amp; Follow-up</h1>
 
-A Zapier automation that handles new-client onboarding end to end: it captures a submission, records the client in a CRM, prepares a welcome email for review, schedules a follow-up, and alerts the team.
+<p align="center">
+  <em>onboard a client end to end — drafts, not sends</em>
+</p>
 
-## Problem solved
+<p align="center">
+  <img src="https://img.shields.io/badge/Zapier-multi--step-FF4F00?logo=zapier&logoColor=white" alt="Zapier multi-step">
+  <img src="https://img.shields.io/badge/Airtable-CRM-18BFFF?logo=airtable&logoColor=white" alt="Airtable">
+  <img src="https://img.shields.io/badge/Gmail-draft%20only-EA4335?logo=gmail&logoColor=white" alt="Gmail draft only">
+  <img src="https://img.shields.io/badge/Google%20Calendar-%2B2%20days-4285F4?logo=googlecalendar&logoColor=white" alt="Calendar +2 days">
+  <img src="https://img.shields.io/badge/status-disabled%20after%20proof-lightgrey" alt="disabled after proof">
+</p>
+
+> A Zapier automation that onboards a new client end to end: capture, CRM record, a drafted welcome email (not sent), a calendar follow-up, and a team alert.
+
 Onboarding a new client usually means several manual steps across email, calendar, and a CRM. This Zap chains them together while keeping a human in the loop for the actual email.
 
-## Architecture
-1. **Webhook intake** receives the new-client submission.
-2. **Normalize & validate** the email address.
-3. **Create an Airtable CRM record** for the client.
-4. **Create a Gmail DRAFT** — a welcome email is drafted, **not auto-sent** (kept for human review).
-5. **Schedule a Google Calendar follow-up** two days out.
-6. **Send a Telegram alert** to notify the team.
+---
 
-## Tools
-Zapier · Airtable · Gmail · Google Calendar · Telegram.
+## Architecture
+
+```
+Webhook ─ new-client intake
+   │
+   ▼
+Formatter ─ normalize & validate email
+   │
+   ▼
+Airtable ─ create CRM record
+   │
+   ▼
+Gmail ─ create DRAFT  (not auto-sent — kept for review)
+   │
+   ▼
+Google Calendar ─ schedule follow-up  (+2 days)
+   │
+   ▼
+Telegram ─ notify team
+```
+
+---
+
+## Built with
+
+`Zapier` · `Airtable` · `Gmail` · `Google Calendar` · `Telegram`
+
+---
 
 ## Files
-- `case-study.html` — case-study page with screenshots and the step-by-step architecture.
 
-## Limitations & honesty notes
-- **No machine-readable export:** Zapier has no public export format, so this folder documents the Zap via the case-study page and this README rather than an importable file.
-- **Disabled after proof:** the Zap was built and verified, then **turned off** — it is not live.
-- **Draft, not send:** the Gmail step only creates a draft; nothing is emailed automatically.
-- **Demo data:** the records shown are sample data, not real clients.
+| File | Purpose |
+|---|---|
+| `case-study.html` | Case-study page with screenshots and the step-by-step architecture |
+
+> Zapier has **no public export format**, so this system is documented via the case-study page and this README rather than an importable file.
+
+---
+
+## Status & limitations
+
+- **Disabled after proof** — the Zap was built and verified, then **turned off**; it is not live.
+- **Draft, not send** — the Gmail step only creates a draft; nothing is emailed automatically.
+- **No machine-readable export** — the architecture is documented, not exported.
+- **Demo data** — the records shown are sample data, not real clients.
+
+---
+
+## Author
+
+**Built by Yigitcan Ük** — Vienna, Austria
+
+[LinkedIn](https://www.linkedin.com/in/yigitcanuk/) · [GitHub](https://github.com/Neeidy)
+
+---
+
+## License
+
+Released under the [MIT License](../LICENSE).
